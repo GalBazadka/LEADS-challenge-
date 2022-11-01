@@ -11,7 +11,6 @@ async function ReadFiles() {
       let fileContent = await fs.readFile(`./files/${file}`, "utf-8");
       let lines = fileContent.split(`\r\n`);
       console.log(lines.length)
-      
       for (let i = 0; i < lines.length; i++) {
         let data = lines[i].split(",");
         let user = {facebook_id: data[0],full_name: data[1].slice(1, data[1].length - 1),email: data[2],
