@@ -5,8 +5,8 @@ import fs from "fs/promises";
 async function ReadFiles() {
   try {
     let userData = [];
-    let facebook_id = [];
-    
+    let user_id = [];
+
     const files = await fs.readdir("./files");
 
     //run over all of the files
@@ -15,29 +15,27 @@ async function ReadFiles() {
       let lines = fileContent.split(`\r\n`);
 
       //creat users
-      for (let i = 0; i < lines.length; i++) {
-        let data = lines[i].split(",");
+      for (const line of lines) {
+        let [facebook_id, full_name, email] = line.split(",");
         let user = {
-          facebook_id: data[0],
-          full_name: data[1].slice(1, data[1].length - 1),
-          email: data[2],
+          facebook_id,
+          full_name: full_name.slice(1, full_name.length - 1),
+          email,
         };
 
         //Make sure each user appears only once.
-        if (!facebook_id.includes(`'${data[0]}'`)) {
+        if (!user_id.includes(`'${facebook_id}'`)) {
           userData.push(user);
-          facebook_id.push(`'${data[0]}'`);
+          user_id.push(`'${facebook_id}'`);
         }
       }
-      //Convert data to a string
-      userData = JSON.stringify(userData);
-
-      // print number of unic users
-      log.magenta(`There are ${userData.length} users`);
-
-      //write the data to a new file
-      fs.writeFile("./files/results.json", userData);
     }
+    // print number of unic users
+    log.magenta(`There are ${userData.length} users`);
+
+    //write the data to a new file and Convert data to a string
+    await fs.writeFile("./files/results.json", JSON.stringify(userData, null, 2));
+
   } catch (err) {
     log.red(err);
   }
