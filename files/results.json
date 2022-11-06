@@ -64970,8 +64970,8 @@
     "email": "hamid.bou.146@facebook.com"
   },
   {
-    "facebook_id": "[{\"facebook_id\":\"713756988\"",
-    "full_name": "full_name\":\"TC Burcu Tozkoparan",
-    "email": "\"email\":\"purju35@facebook.com\"}"
+    "facebook_id": "[\n  {\n    \"facebook_id\": \"713756988\"",
+    "full_name": "    \"full_name\": \"TC Burcu Tozkoparan",
+    "email": "\n    \"email\": \"purju35@facebook.com\"\n  }"
   }
 ]
