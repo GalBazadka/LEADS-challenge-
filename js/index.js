@@ -1,6 +1,7 @@
 import log from "@ajar/marker";
+import fs, { readdir } from "fs/promises";
 console.time("my benchmark");
-import fs from "fs/promises";
+import path from "path";
 
 async function ReadFiles() {
   try {
@@ -42,3 +43,19 @@ async function ReadFiles() {
   console.timeEnd("my benchmark");
 }
 ReadFiles();
+
+(async () => {
+  async function countFiles(dirPath, count = 0) {
+    const dirContents = await readdir(dirPath, { withFileTypes: true });
+    for (let item of dirContents) {
+      if (item.isFile()) {
+        count++;
+      } else if (item.isDirectory()) {
+        count = await countFiles(path.join(dirPath, item.name), count);
+      }
+    }
+    return count;
+  }
+  const result = await countFiles("./node_modules");
+  log.cyan("we have " + result + " files");
+})().catch(log.err);
